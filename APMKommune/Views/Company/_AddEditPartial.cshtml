@@ -1,0 +1,64 @@
+﻿
+@model APMKommune.Models.Company
+
+
+<!DOCTYPE html>
+
+<div>
+
+    <form id="myForm">
+        @Html.HiddenFor(s => s.CompanyId)
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Kommunenavn" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBoxFor(model => model.CompanyNr, new { @class = "form-control", @placeholder = "Kommunenummer" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#" id="btnSubmit" class="btn btn-success ">
+                        @if (Model != null && Model.CompanyId > 0)
+                        { <span> Oppdater</span>}
+                        else
+                        {<span> Lagre</span> }
+
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+
+    </form>
+
+    <div style="text-align:center;display:none" id="loaderDiv">
+        <i class="fa fa-spinner" aria-hidden="true"></i>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+            $("#loaderDiv").show();
+
+            var data = $("#myForm").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Company/Create",
+                data: data,
+                success: function () {
+                    $("#loaderDiv").hide();
+                    $("#AddAndEdit").modal("hide");
+                    window.location.href = "/Company/Index";
+                }
+            })
+        })
+    })
+</script>
+

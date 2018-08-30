@@ -1,0 +1,238 @@
+﻿@model IEnumerable<APMKommune.Models.Application>
+
+<head>
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+
+@{
+    ViewBag.Title = "Applikasjoner";
+}
+
+<h2>Applikasjoner</h2>
+
+<!-- Filters -->
+@using (Html.BeginForm("Filtrer", "Applications", FormMethod.Get))
+{
+    <table id="filterTable" style="margin-bottom:20px; margin-top:20px">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Segment.Name)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Supplier.Name)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("SegmentId", null, " ", htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+            </td>
+            <td>
+                @Html.DropDownList("SupplierId", null, " ", htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+            </td>
+            <td>
+                <input type="submit" value="Filtrer" class="btn btn-success btn-sm" />
+            </td>
+            <td>
+                @Html.ActionLink("Vis alle", "Index", "Applications", htmlAttributes: new { @class = "btn btn-default btn-sm" })
+            </td>
+        </tr>
+    </table>
+} 
+
+@Html.ActionLink("Ny applikasjon", "Create", null, htmlAttributes: new { @class = "btn btn-primary", style = "margin-bottom:30px" })
+
+<a href="#" id="applicationSettings" onclick="OpenSettings()">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+</a>
+
+<table class="table .table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Administrator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfUsers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContractResignation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CostYearly)
+        </th>
+        <th>
+            <div class="scoreIcon">
+                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                <span class="scoreIconText">Poeng for forretningsverdi</span>
+            </div>
+        </th>
+        <th>
+            <div class="scoreIcon">
+                <i class="fa fa-cubes" aria-hidden="true"></i>
+                <span class="scoreIconText">Poeng for passende arkitektur</span>
+            </div>
+        </th>
+        <th>
+            <div class="scoreIcon">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <span class="scoreIconText">Poeng for Applikasjonsrisiko</span>
+            </div>
+        </th>
+        <th>
+            <div class="scoreIcon">
+                <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                <span class="scoreIconText">Poeng for Applikasjonshastighet</span>
+            </div>
+        </th>
+        <th>
+        </th>
+
+    </tr>
+
+@foreach (var item in ViewBag.ApplicationList)
+{
+    <tr id="row_@item.ApplicationId">
+        
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.Supplier.Name
+        </td>
+        <td>
+            @item.Administrator
+        </td>
+        <td>
+            @item.NumberOfUsers
+        </td>
+        <td>
+            @item.ContractResignation
+        </td>
+        <td>
+            @item.CostYearly
+        </td>
+        <td>
+            @item.BusinessValueScore
+        </td>
+        <td>
+            @item.ArchitectureFitsScore
+        </td>
+        <td>
+            @item.ApplicationRiskScore
+        </td>
+        <td>
+            @item.ApplicationSpeedScore
+        </td>
+        <td>
+            @Html.ActionLink("Endre", "Edit", new { id = item.ApplicationId }) |
+            @Html.ActionLink("Detaljer", "Details", new { id = item.ApplicationId })
+            <a hr="#" class="btn " onclick="ConfirmDelete(@item.ApplicationId)"><i class="fa fa-trash-o" aria-hidden="true" style="color:red"></i> </a>
+        </td>
+    </tr>
+}
+
+</table>
+
+<input type="hidden" id="hiddenApplicationId" />
+<!--Deletemodal-->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Er du sikker på at du vil slette denne applikasjonen?</h4>
+
+                <div style="text-align:center;display:none " id="loaderDiv">
+                    <i class="fa fa-spinner" aria-hidden="true"></i>
+                </div>
+            </div><!--Body-->
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Avbryt</a>
+                <a href="#" class="btn btn-success" onclick="DeleteApplication()"> Slett</a>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Slutt på deletemodal-->
+
+
+<input type="hidden" id="hiddenApplicationId" />
+<!--Settingsmodal-->
+<div id="settingsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Innstillinger</h4> <h6>(Foreløpig ingen funksjonalitet)</h6>
+                <div id="ColumnOptions">
+                    <p>Vis følgende kolonner:</p>
+                    @using (Html.BeginForm("SelectColumns", "Applications", FormMethod.Get))
+                    {
+                        @Html.CheckBox("NameSelected", false, htmlAttributes: new { style = "margin-right: 10px" })
+                        @Html.DisplayNameFor(model => model.Name) <br>
+                        @Html.CheckBox("Description", false, htmlAttributes: new { style = "margin-right: 10px" })
+                        @Html.DisplayNameFor(model => model.Description) <br>
+                        @Html.CheckBox("NumberOfUsers", false, htmlAttributes: new { style = "margin-right: 10px" })
+                        @Html.DisplayNameFor(model => model.NumberOfUsers) <br>
+                    }
+                    . <br /> . <br /> . 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Avbryt</a>
+                <a href="#" class="btn btn-success" data-dismiss="modal">OK</a> <!--TODO: fjern data-dismiss på ok knapp-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Slutt på deletemodal-->
+
+<script>
+    $(document).ready(function () {})
+
+        function ConfirmDelete (ApplicationId) {
+            $("#hiddenApplicationId").val(ApplicationId);
+            $("#deleteModal").modal("show");
+        }
+
+        function DeleteApplication() {
+            $("#loaderDiv").show();
+            var AppId = $("#hiddenApplicationId").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Applications/Delete",
+                data: { ApplicationId: AppId },
+                success: function (result) {
+                    $("#loaderDiv").hide();
+                    $("#row_" + AppId).remove();
+                    $("#deleteModal").modal('hide');
+                },
+                error: function (xhr, status, error) {
+                    alert("En feil oppsto ved sletting - " + error);
+                    $("#loaderDiv").hide();
+                    $("#deleteModal").modal('hide');
+                }
+            })
+        }
+
+        function OpenSettings() {
+            $("#settingsModal").modal("show");
+        }
+    
+</script>

@@ -1,0 +1,232 @@
+﻿@model APMKommune.Models.Application
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Application</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Segment.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Segment.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supplier.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfUsers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfUsers)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OperatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OperatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractInformation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractInformation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InfoLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InfoLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Administrator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Administrator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SuperUsers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SuperUsers)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastUpgraded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastUpgraded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExternalUsers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExternalUsers)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CostYearly)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CostYearly)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CostInitial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CostInitial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsesSharedComponents)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsesSharedComponents)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Strengths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Strengths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Weaknesses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weaknesses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractResignation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractResignation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessValueScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessValueScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArchitectureFitsScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArchitectureFitsScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationRiskScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationRiskScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationSpeedScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationSpeedScore)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

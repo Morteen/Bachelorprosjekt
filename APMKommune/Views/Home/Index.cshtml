@@ -1,0 +1,264 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+<head>
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+</head>
+
+
+
+
+<h2 id="dashboardHeader"></h2>
+
+
+@using (Html.BeginForm("Filtrer", "Home", FormMethod.Get))
+{
+    <table id="filterTable" style="margin-bottom:20px; margin-top:20px">
+        <tr>
+            <td>
+                Vis statistikk filtrert på etater:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("SegmentId", null, "For alle etater", htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+            </td>
+            <td>
+                <input type="submit" value="Velg" class="btn btn-success btn-sm" />
+            </td>
+        </tr>
+    </table>
+}
+
+<div class="row">
+
+    <a class="dashboardCardLink" href="/Applications/">
+        <div class="col-md-6">
+            <div class="dashboardCard">
+                <h2><i id="appsIcon" class="fa fa-laptop" style="font-size:40px" aria-hidden="true"></i>&nbsp Applikasjoner</h2>
+                @if (ViewBag.ApplicationCount != null)
+                {
+                    <table style="width: 100%">
+                        <tr>
+                            <td>Totalt antall applikasjoner:</td>
+                            <td>@ViewBag.ApplicationCount</td>
+                        </tr>
+                        <tr>
+                            <td>Totalt antall brukere:</td>
+                            <td>@ViewBag.totUsers</td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </a>
+
+    <div class="col-md-6">
+        <div class="dashboardCard">
+            <h2><i class="fa fa-trophy" style="font-size:40px" aria-hidden="true"></i>&nbsp Poeng</h2>
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <i class="fa fa-briefcase" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        Gjennomsnittlig poeng for forretningsverdi:
+                    </td>
+                    <td>
+                        @ViewBag.AverageBusinessValueScore
+                    </td>
+                    <td style="padding-left: 15px">
+                        @if (ViewBag.AverageBusinessValueScore > 0 && ViewBag.AverageBusinessValueScore <= 3)
+                        {
+                            <i class="fa fa-frown-o" aria-hidden="true" style="color: red; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageBusinessValueScore > 3 && ViewBag.AverageBusinessValueScore <= 6)
+                        {
+                            <i class="fa fa-meh-o" aria-hidden="true" style="color: yellow; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageBusinessValueScore > 6 && ViewBag.AverageBusinessValueScore <= 10)
+                        {
+                            <i class="fa fa-smile-o" aria-hidden="true" style="color: green; font-size:25px"></i>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-cubes" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        Gjennomsnittlig poeng for passende arkitektur:
+                    </td>
+                    <td>
+                        @ViewBag.AverageArchitectureFitsScore
+                    </td>
+                    <td style="padding-left: 15px">
+                        @if (ViewBag.AverageArchitectureFitsScore > 0 && ViewBag.AverageArchitectureFitsScore <= 3)
+                        {
+                            <i class="fa fa-frown-o" aria-hidden="true" style="color: red; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageArchitectureFitsScore > 3 && ViewBag.AverageArchitectureFitsScore <= 6)
+                        {
+                            <i class="fa fa-meh-o" aria-hidden="true" style="color: yellow; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageArchitectureFitsScore > 6 && ViewBag.AverageArchitectureFitsScore <= 10)
+                        {
+                            <i class="fa fa-smile-o" aria-hidden="true" style="color: green; font-size:25px"></i>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        Gjennomsnittlig poeng for applikasjonshastighet:
+                    </td>
+                    <td>
+                        @ViewBag.AverageApplicationSpeedScore
+                    </td>
+                    <td style="padding-left: 15px">
+                        @if (ViewBag.AverageApplicationSpeedScore > 0 && ViewBag.AverageApplicationSpeedScore <= 3)
+                        {
+                            <i class="fa fa-frown-o" aria-hidden="true" style="color: red; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageApplicationSpeedScore > 3 && ViewBag.AverageApplicationSpeedScore <= 6)
+                        {
+                            <i class="fa fa-meh-o" aria-hidden="true" style="color: yellow; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageApplicationSpeedScore > 6 && ViewBag.AverageApplicationSpeedScore <= 10)
+                        {
+                            <i class="fa fa-smile-o" aria-hidden="true" style="color: green; font-size:25px"></i>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        Gjennomsnittlig poeng for applikasjonsrisiko:
+                    </td>
+                    <td>
+                        @ViewBag.AverageApplicationRiskScore
+                    </td>
+                    <td style="padding-left: 15px">
+                        @if (ViewBag.AverageApplicationRiskScore > 0 && ViewBag.AverageApplicationRiskScore <= 3)
+                        {
+                            <i class="fa fa-frown-o" aria-hidden="true" style="color: red; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageApplicationRiskScore > 3 && ViewBag.AverageApplicationRiskScore <= 6)
+                        {
+                            <i class="fa fa-meh-o" aria-hidden="true" style="color: yellow; font-size:25px"></i>
+                        }
+                        else if (ViewBag.AverageApplicationRiskScore > 6 && ViewBag.AverageApplicationRiskScore <= 10)
+                        {
+                            <i class="fa fa-smile-o" aria-hidden="true" style="color: green; font-size:25px"></i>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+     
+</div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="dashboardCard">
+            <h2><i class="fa fa-cogs" style="font-size:40px" aria-hidden="true"></i>&nbsp Årlige driftskostnader</h2>
+            @if (ViewBag.ApplicationList != null)
+            {
+                <table style="width: 100%">
+                    <tr>
+                        <td>Samlet årlig kostnad:</td>
+                        <td>@ViewBag.totYearly</td>
+                    </tr>
+                    <tr>
+                        <td>Gjennomsnittlig kostnad pr. app:</td>
+                        <td>@ViewBag.averageYearly</td>
+                    </tr>
+                    <tr>
+                        <td>Mest kostbare applikasjon:</td>
+                        <td>@ViewBag.MostExpensiveYearlyName (@ViewBag.MostExpensiveYearlyCost)</td>
+                    </tr>
+                    <tr>
+                        <td>Minst kostbare applikasjon:</td>
+                        <td>@ViewBag.LeastExpensiveYearlyName (@ViewBag.LeastExpensiveYearlyCost)</td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="dashboardCard">
+            <h2><i class="fa fa-usd" style="font-size:40px" aria-hidden="true"></i>&nbsp Oppstartskostnader</h2>
+            @if (ViewBag.ApplicationList != null)
+            {
+                <table style="width: 100%">
+                    <tr>
+                        <td>Samlet startkostnad:</td>
+                        <td>@ViewBag.totInitial</td>
+                    </tr>
+                    <tr>
+                        <td>Gjenomsnittlig startkostnad pr. app:</td>
+                        <td>@ViewBag.AverageInitial</td>
+                    </tr>
+                    <tr>
+                        <td>Mest kostbare applikasjon:</td>
+                        <td>@ViewBag.MostExpensiveInitialName (@ViewBag.MostExpensiveInitialCost)</td>
+                    </tr>
+                    <tr>
+                        <td>Minst kostbare applikasjon:</td>
+                        <td>@ViewBag.LeastExpensiveInitialName (@ViewBag.LeastExpensiveInitialCost)</td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="dashboardCard">
+            <h2> </h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboardCard">
+            <h2> </h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboardCard">
+            <h2> </h2>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        //$(".dashboardCard").on("mouseenter", function () {
+
+        //})
+
+        $(window).load(function () {
+            $("#dashboardHeader").html("Dashboard - " + $("#SegmentId option:selected").text());
+        })
+    });
+
+</script>
+

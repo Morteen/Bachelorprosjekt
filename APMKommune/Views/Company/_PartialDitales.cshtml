@@ -1,0 +1,23 @@
+﻿
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<div class="jumbotron">
+    <table class="table table-bordered">
+        @if (ViewBag.Companylist != null)
+        {
+            foreach (var items in ViewBag.Companylist)
+            {
+                <tr id="row_@items.CompanyId">
+                    <td>
+                        @items.Name
+                    </td>
+                    <td>
+                        @items.CompanyNr
+                    </td>
+
+                </tr>
+            }
+        }
+    </table>
+</div>
+

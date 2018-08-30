@@ -1,0 +1,33 @@
+﻿
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<div class="jumbotron">
+    <table class="table table-bordered">
+        @if (ViewBag.Datasetliste != null)
+        {
+            foreach (var items in ViewBag.Datasetliste)
+            {
+                <tr id="row_@items.DatasetId">
+                    <td>
+                        @items.Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @items.Description
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @items.isMasterData
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @items.isAccessible
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>

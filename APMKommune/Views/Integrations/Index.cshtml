@@ -1,0 +1,206 @@
+﻿@model IEnumerable<APMKommune.Models.Integration>
+
+
+
+@{
+
+    ViewBag.Title = "Integrasjoner";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>*@
+<link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+
+<a href="#" class="btn btn-primary" id="btnNewIntegrasjon" onclick="AddEditIntegration(0)" style="margin-bottom:30px;margin-top:30px;">Ny Integrasjon</a>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Integrasjon
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Beskrivelse
+        </th>
+        <th>
+            Source applikasjon
+        </th>
+        <th>
+            Target applikasjon
+        </th>
+        <th>
+        </th>
+
+    </tr>
+
+    <tbody>
+        @if (ViewBag.Integrasjonsliste != null)
+        {
+            foreach (var item in ViewBag.Integrasjonsliste)
+            {
+                <tr id="row_@item.IntegrationId">
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Type
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.Application.Name
+                    </td>
+                    <td>
+                        @if(ViewBag.ShowApp!=null){
+                            var name = "";
+                            foreach (var app in ViewBag.ShowApp)
+                            {
+
+                                if (item.TargetApplicationId == app.ApplicationId)
+                                {
+                                    name += app.Name;
+                                }
+
+                            }
+                            @name;
+                        }
+                    </td>
+
+                    <td>
+                        <a hr="#" class="btn  " onclick="ConfirmDelete(@item.IntegrationId)"><i class="fa fa-trash-o" aria-hidden="true" style="color:red"></i> </a>
+                        <a hr="#" class="btn btnEditIntegrasjon" onclick="AddEditIntegration(@item.IntegrationId)"><i class="glyphicon glyphicon-pencil"></i> </a>
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+</table>
+
+<input type="hidden" id="hiddenIntegrationId" />
+<!--Deletemodal-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            
+
+            <div class="modal-body">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title">Vil du slette denne integrasjonen?</h4>
+                
+                <div style="text-align:center;display:none " id="loaderDiv">
+
+                    <i class="fa fa-spinner" aria-hidden="true"></i>
+                </div>
+            </div><!--Body-->
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Avbryt</a>
+                <a href="#" class="btn btn-success" onclick="DeleteIntegrasjon()"> Slett</a>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Slutt på deletemodal-->
+
+
+<div id="AddAndEdit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title" id="modalIntegrationTitle"></h4>
+            </div>
+
+            <div class="modal-body" id="showModalBodyDiv1">
+
+            </div><!--Body-->
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        
+    })
+    //ny funksjon
+    var ConfirmDelete = function (IntegrationId) {
+        $("#hiddenIntegrationId").val(IntegrationId);
+        $("#myModal").modal("show");
+
+
+    }
+
+    //ny funksjon
+    var DeleteIntegrasjon = function () {
+        $("#loaderDiv").show();
+
+        var InteId = $("#hiddenIntegrationId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Integrations/Delete",
+            data: { IntegrationId: InteId },
+            success: function (result) {
+                $("#loaderDiv").hide();
+                $("#row_" + InteId).remove();
+                $("#myModal").modal('hide');
+            },
+            error: function (xhr, status, error) {
+                alert("En feil oppsto ved sletting - " + error);
+                $("#loaderDiv").hide();
+                $("#myModal").modal('hide');
+            }
+
+        })
+    }
+    
+    //Ny funksjon
+    var AddEditIntegration = function (IntegrationId) {
+        $("#AddAndEdit").modal('show');
+        $.ajax({
+            type: "POST",
+            url: "/Integrations/AddEditIntegration",
+            data: { IntegrationId:IntegrationId },
+            success: function (response) {
+                $("#showModalBodyDiv1").html(response);
+            },
+            error: function (xhr, status, error) {
+                alert("Beklager, endring er for øyeblikket utilgjengelig - " + error);
+                $("#AddAndEdit").modal('hide');
+            }
+        })
+    }
+
+    $("#btnNewIntegrasjon").click(function () {
+        $(this).data("clicked", true);
+        $("#modalIntegrationTitle").html("Legg til ny Integrasjon");
+    });
+
+    $(".btnEditIntegrasjon").click(function () {
+        $(this).data("clicked", true);
+        $("#modalIntegrationTitle").html("Rediger integrasjon");
+    });
+
+</script>

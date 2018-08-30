@@ -1,0 +1,217 @@
+﻿@model IEnumerable<APMKommune.Models.Supplier>
+
+@{
+
+    ViewBag.Title = "Leverandører";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+
+<a href="#" class="btn btn-primary" id="btnNewSupplier" onclick="AddEditSegment(0)" style="margin-bottom:30px;margin-top:30px">Ny Leverandør</a>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Leverandør navn
+        </th>
+        <th>
+        </th>
+        
+    </tr>
+
+    <tbody>
+        @if (ViewBag.Supplierliste != null)
+        {
+            foreach (var items in ViewBag.Supplierliste)
+            {
+                <tr id="row_@items.SupplierId">
+                    <td>
+                        @items.Name
+                    </td>
+
+                    <td>
+                        <a hr="#" class="btn  " onclick="ConfirmDelete(@items.SupplierId)"><i class="fa fa-trash-o" aria-hidden="true" style="color:red"></i> </a>
+
+                        <a hr="#" class="btn btnEditSupplier" onclick="AddEditSegment(@items.SupplierId)"><i class="glyphicon glyphicon-pencil"></i> </a>
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+</table>
+
+<input type="hidden" id="hiddenSegmentId" />
+<!--Deletemodal-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            
+
+            <div class="modal-body">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title">Vil du slette denne leverandøren?</h4>
+               
+                <div style="text-align:center;display:none " id="loaderDiv">
+
+                    <i class="fa fa-spinner" aria-hidden="true"></i>
+                </div>
+            </div><!--Body-->
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Avbryt</a>
+                <a href="#" class="btn btn-success" onclick="DeleteSegment()">Slett</a>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Slutt på deletemodal-->
+
+
+<!--AddAndEdit Modal-->
+<div id="AddAndEdit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title" id="modalAddEditSupplier"></h4>
+            </div>
+
+            <div class="modal-body" id="showModalBodyDiv1">
+
+                @Html.Partial("_AddEditSupplier");
+
+            </div><!--Body-->
+
+
+        </div>
+
+    </div>
+</div>
+
+<!--Slutt på AddAndEdit Modal-->
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+
+        //ny funksjon
+        $("#btnSubmit").click(function () {
+            $("#loaderDiv").show();
+
+            var data = $("#myForm").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Suppliers/Index",
+                data: data,
+                success: function (response) {
+                    $("#loaderDiv").hide();
+                   
+                    $("#myModal").modal("hide");
+
+                }
+
+            })
+
+        })
+    })
+    //ny funksjon
+    var ConfirmDelete = function (SuppliersId) {
+        $("#hiddenSegmentId").val(SuppliersId);
+        $("#myModal").modal("show");
+
+
+    }
+    //ny funksjon
+    var DeleteSegment = function () {
+        $("#loaderDiv").show();
+
+        var SupId = $("#hiddenSegmentId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Suppliers/Delete",
+            data: { SupplierId: SupId },
+            success: function (result) {
+                $("#loaderDiv").hide();
+                $("#row_" + SupId).remove();
+                $("#myModal").modal('hide');
+            },
+            error: function (xhr, status, error) {
+                alert("En feil oppsto ved sletting - " + error);
+                $("#loaderDiv").hide();
+                $("#myModal").modal('hide');
+            }
+        })
+    }
+    ////Ny funksjon
+    var ShowSegment = function (SupplierId) {
+
+      
+        $.ajax({
+            type: "POST",
+            url: "/Suppliers/ShowSegment",
+            data: { SupplierId: SupplierId },
+            success: function (response) {
+
+                $("#showModalBodyDiv").html(response);
+                $("#ShowModal").modal('show');
+
+
+            }
+        })
+
+    }
+    //Ny funksjon
+    var AddEditSegment = function (SupplierId) {
+        $("#AddAndEdit").modal('show');
+
+        
+
+        $.ajax({
+            type: "POST",
+            url: "/Suppliers/AddEditSegment",
+            data: { SupplierId: SupplierId },
+            success: function (response) {
+
+                $("#showModalBodyDiv1").html(response);
+                $("#AddAndEdit").modal('Hide');
+
+
+
+            }
+        })
+
+    }
+
+    $("#btnNewSupplier").click(function () {
+        $(this).data("clicked", true);
+        $("#modalAddEditSupplier").html("Legg til ny leverandør");
+    });
+
+    $(".btnEditSupplier").click(function () {
+        $(this).data("clicked", true);
+        $("#modalAddEditSupplier").html("Rediger leverandør");
+    });
+
+</script>

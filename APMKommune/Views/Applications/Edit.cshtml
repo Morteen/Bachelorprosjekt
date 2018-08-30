@@ -1,0 +1,255 @@
+﻿@model APMKommune.Models.Application
+
+@{
+    ViewBag.Title = "Endre applikasjonen";
+}
+
+<h2>Endre applikasjon</h2>
+<hr />
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="newAppForm">
+        <h4>Applikasjonen </h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ApplicationId)
+        <table class="table table-condensed">
+            <tr>
+                <td>
+                    <span class="label label-primary">Applikasjonens navn:</span>
+                    @Html.TextBoxFor(Model => Model.Name, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Beskrivelse:</span>
+                    @Html.TextAreaFor(model => model.Description, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="label label-primary">Leverandør:</span>
+                    @Html.DropDownList("SupplierId", null, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Antall brukere:</span>
+                    @Html.TextBoxFor(model => model.NumberOfUsers, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NumberOfUsers, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="newAppForm">
+        <h4>Tilhørighet</h4>
+        <table class="table table-condensed">
+            <tr>
+                <td>
+                    <span class="label label-primary">Kommune:</span>
+                    @Html.DropDownList("CompanyId", null, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Etat:</span>
+                    @Html.DropDownList("SegmentId", null, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SegmentId, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="label label-primary">Tjeneste:</span>
+                    @Html.DropDownList("ServiceId", null, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ServiceId, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="newAppForm">
+        <h4>Administrasjon</h4>
+        <table class="table table-condensed">
+            <tr>
+                <td>
+                    <span class="label label-primary">Systemansvarlig:</span>
+                    @Html.TextBoxFor(model => model.Administrator, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Administrator, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Driftes av:</span>
+                    @Html.TextBoxFor(model => model.OperatedBy, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OperatedBy, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="label label-primary">Superbrukere:</span>
+                    @Html.TextAreaFor(model => model.SuperUsers, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SuperUsers, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Eksterne brukere:</span>
+                    @Html.TextAreaFor(model => model.ExternalUsers, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ExternalUsers, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table id="costAndScoreTable">
+        <tr>
+            <td>
+                <div class="newAppForm">
+                    <h4>Kostnader</h4>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td>
+                                <span class="label label-primary">Årlig kostnad:</span>
+                                @Html.TextBoxFor(model => model.CostYearly, htmlAttributes: new { style = "margin-top:5px; width:120px;", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CostYearly, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="label label-primary">Initiell kostnad:</span>
+                                @Html.TextBoxFor(model => model.CostInitial, htmlAttributes: new { style = "margin-top:5px; width:120px;", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CostInitial, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+
+            <td>
+                <div class="newAppForm">
+                    <h4>Poeng for foretningsverdi</h4>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td>
+                                <i class="fa fa-briefcase" aria-hidden="true" style="margin-right:2px"></i>
+                                <span class="label label-primary">Poeng for forretningsverdi:</span>
+
+                                @Html.TextBoxFor(model => model.BusinessValueScore, htmlAttributes: new { style = "margin-top:5px; width:60px;", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BusinessValueScore, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                <i class="fa fa-cubes" aria-hidden="true" style="margin-right:2px"></i>
+                                <span class="label label-primary">Poeng for passende arkitektur:</span>
+
+                                @Html.TextBoxFor(model => model.ArchitectureFitsScore, htmlAttributes: new { style = "margin-top:5px; width:60px;", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ArchitectureFitsScore, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tabSize ">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right:2px"></i>
+                                <span class="label label-primary">Poeng for applikasjonrisiko:</span>
+
+                                @Html.TextBoxFor(model => model.ApplicationRiskScore, htmlAttributes: new { style = "margin-top:5px; width:60px;", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ApplicationRiskScore, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                <i class="fa fa-fighter-jet" aria-hidden="true" style="margin-right:2px"></i>
+                                <span class="label label-primary">Poeng for applikasjonshastighet:</span>
+
+                                @Html.TextBoxFor(model => model.ApplicationSpeedScore, htmlAttributes: new { style = "margin-top:5px; width:60px;", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ApplicationSpeedScore, "", new { @class = "text-danger" })
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="newAppForm">
+        <h4>Praktisk info</h4>
+        <table class="table table-condensed">
+            <tr>
+                <td>
+                    <span class="label label-primary">Info-link:</span>
+                    @Html.TextBoxFor(model => model.InfoLink, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.InfoLink, "", new { @class = "text-danger" })
+
+                </td>
+                <td>
+                    <span class="label label-primary">Status:</span>
+                    @Html.TextBoxFor(model => model.Status, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Felleskomponenter:</span>
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.UsesSharedComponents, new { style = "margin-top:5px;width:10px;height:10px" })
+                        @Html.ValidationMessageFor(model => model.UsesSharedComponents, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="label label-primary">Type applikasjon:</span>
+                    @Html.TextBoxFor(model => model.Type, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Sist oppgradert:</span>
+                                      
+                    @Html.EditorFor(model => model.LastUpgraded, new { htmlAttributes = new { @class = "form-control form-date" } })
+                   
+                    @Html.ValidationMessageFor(model => model.LastUpgraded, "", new { @class = "text-danger" })
+                   
+                </td>
+                <td>
+                    <span class="label label-primary">Avtaleinformasjon:</span>
+                    @Html.TextBoxFor(model => model.ContractInformation, htmlAttributes: new {  @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ContractInformation, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="label label-primary">Styrker:</span>
+                    @Html.TextAreaFor(model => model.Strengths, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Strengths, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <span class="label label-primary">Svakheter:</span>
+                    @Html.TextAreaFor(model => model.Weaknesses, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Weaknesses, "", new { @class = "text-danger" })
+
+                </td>
+                <td>
+                    <span class="label label-primary">Informasjon om oppsigelse:</span>
+                    @Html.TextBoxFor(model => model.ContractResignation, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ContractResignation, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="btn-group btn-group-lg" style="float:left; margin-right:10px">
+        <input type="submit" value="Lagre" class="btn btn-success" />
+    </div>
+
+}<!--End for Html.BeginForm -->
+
+<div>
+    @Html.ActionLink("Avbryt", "Index", null, new { @class = "btn btn-default btn-lg" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+
+    jQuery.validator.methods.date = function (value, element) {
+
+        var d = new Date();
+
+        return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+
+    };
+
+</script>
+}

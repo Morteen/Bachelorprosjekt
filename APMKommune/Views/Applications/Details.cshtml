@@ -1,0 +1,193 @@
+﻿@model APMKommune.Models.Application
+
+<head>
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>
+    @Html.DisplayFor(model => model.Name)
+</h2>
+
+<hr />
+
+<div id="AppDetails">
+    <div id="leftColumn">
+        <dl class="dl-horizontal dl-AppDetails">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Company.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Company.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Segment.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Segment.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Service.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Service.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Administrator)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Administrator)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SuperUsers)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SuperUsers)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ExternalUsers)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExternalUsers)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.NumberOfUsers)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumberOfUsers)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Type)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CostInitial)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CostInitial)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CostYearly)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CostYearly)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Strengths)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Strengths)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Weaknesses)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Weaknesses)
+            </dd>
+        </dl>
+    </div>
+
+    <div id="rightColumn">
+        <dl class="dl-horizontal dl-AppDetails">
+            <dt>
+                @Html.DisplayNameFor(model => model.Supplier.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Supplier.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.OperatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OperatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ContractInformation)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ContractInformation)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.InfoLink)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.InfoLink)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ContractResignation)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ContractResignation)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastUpgraded)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastUpgraded)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UsesSharedComponents)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UsesSharedComponents)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.BusinessValueScore)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.BusinessValueScore)
+                <i class="fa fa-briefcase" aria-hidden="true"></i>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ArchitectureFitsScore)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ArchitectureFitsScore)
+                <i class="fa fa-cubes" aria-hidden="true"></i>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ApplicationRiskScore)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ApplicationRiskScore)
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ApplicationSpeedScore)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ApplicationSpeedScore)
+                <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Tilbake til listen", "Index", null, new {@class="btn btn-default" })
+    @Html.ActionLink("Endre", "Edit", new { id = Model.ApplicationId }, new { @class = "btn btn-primary" })
+</p>

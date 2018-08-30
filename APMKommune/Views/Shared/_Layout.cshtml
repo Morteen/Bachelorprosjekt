@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    
+
+    <meta name="description" content="The description of my page" />
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Dashboard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:black" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Applikasjoner", "Index", "Applications", null, htmlAttributes: new { @class = "navbar-brand", style = "color:black"})</li>
+                    
+                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle navbar-brand" style="color:black"> Registre<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Kommuner", "Index", "Company")</li>
+                            <li>@Html.ActionLink("Etater", "Index", "Segment")</li>
+                            <li>@Html.ActionLink("Tjenester", "Index", "Service")</li>
+                            <li>@Html.ActionLink("Leverandører", "Index", "Suppliers")</li>
+                            <li>@Html.ActionLink("Datasett", "Index", "Dataset")</li>
+                            <li>@Html.ActionLink("Integrasjoner", "Index", "Integrations")</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Arkitektum <br /> Utviklere: Morten Olsen og Vebjørn Kvisli</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

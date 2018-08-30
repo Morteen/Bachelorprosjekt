@@ -1,0 +1,70 @@
+﻿@model APMKommune.Models.Service
+
+
+
+<!DOCTYPE html>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+<div>
+
+    <form id="myForm">
+        @Html.HiddenFor(s => s.ServiceId)
+
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tjenestenavn" })
+        @*@Html.DropDownList("SegmentId", null, htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })*@
+        @if (ViewBag.segmentList != null)
+        {
+            @Html.DropDownList("SegmentId", new SelectList(ViewBag.segmentList, "SegmentId", "Name"), "", htmlAttributes: new { style = "margin-top:5px", @class = "form-control" } )
+        }
+        else
+        {
+            <p>Fant ingen Etater</p>
+        }
+        <br />
+        <a href="#" id="btnSubmit" class="btn btn-success ">
+            @if (Model != null && Model.ServiceId > 0)
+            { <span> Oppdater</span>}
+            else
+            {<span> Lagre</span> }
+
+        </a>
+
+    </form>
+
+    <div style="text-align:center;display:none " id="loaderDiv">
+        <i class="fa fa-spinner" aria-hidden="true"></i>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+            $("#loaderDiv").show();
+
+            var data = $("#myForm").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Service/Create",
+                data: data,
+                success: function () {
+                    $("#loaderDiv").hide();
+                    $("#AddAndEdit").modal("hide");
+                    window.location.href = "/Service/Index";
+
+                }
+
+            })
+
+        })
+    })
+
+
+
+
+
+</script>

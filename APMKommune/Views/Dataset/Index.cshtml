@@ -1,0 +1,167 @@
+﻿
+@model IEnumerable<APMKommune.Models.Dataset>
+
+@{
+
+    ViewBag.Title = "Datasett";
+}
+
+<link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+
+<a href="#" id="btnNewDatasett" class="btn btn-primary" onclick="AddEditDataset(0)" style="margin-bottom:30px;margin-top:30px;">Nytt datasett</a>
+
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Application.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isMasterData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isAccessible)
+        </th>
+        <th></th>
+
+    </tr>
+
+    <tbody>
+        @if (ViewBag.Datasetliste != null)
+        {
+            foreach (var items in ViewBag.Datasetliste)
+            {
+                <tr id="row_@items.DatasetId">
+                    <td>
+                        @items.Name
+                    </td>
+                    <td>
+                        @items.Description
+                    </td>
+                   <td>
+                       @items.Application.Name
+                   </td>
+                    <td>
+                        @if (items.isMasterData){ <div>Ja</div> } else{ <div>Nei</div> }
+                    </td>
+                    <td>
+                        @if (items.isAccessible){ <div>Ja</div> } else{ <div>Nei</div> }
+                    </td>
+                    <td>
+                        <a hr="#" class="btn  " onclick="ConfirmDelete(@items.DatasetId)"><i class="fa fa-trash-o" aria-hidden="true" style="color:red"></i> </a>
+                        <a hr="#" class="btn btnEditDatasett " onclick="AddEditDataset(@items.DatasetId)"><i class="glyphicon glyphicon-pencil"></i> </a>
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+</table>
+
+<input type="hidden" id="hiddenSegmentId" />
+<!--Deletemodal-->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            
+
+            <div class="modal-body">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title">Vil du slette dette datasettet?</h4>
+                
+
+                <div style="text-align:center;display:none " id="loaderDiv">
+
+                    <i class="fa fa-spinner" aria-hidden="true"></i>
+                </div>
+            </div><!--Body-->
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Avbryt</a>
+                <a href="#" class="btn btn-success" onclick="DeleteSegment()"> Slett</a>
+            </div>
+        </div>
+    </div>
+</div><!--Slutt på deletemodal-->
+
+<div id="AddAndEditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title" id="modalDatasetTitle"></h4>
+            </div>
+
+            <div class="modal-body" id="showModalBodyDiv1">
+
+            </div>
+
+        </div>
+    </div>
+</div> <!--Slutt på AddAndEditModal-->
+
+
+<script>
+    $(document).ready(function () {})
+
+    //ny funksjon
+    function ConfirmDelete(DatasetId) {
+        $("#hiddenSegmentId").val(DatasetId);
+        $("#deleteModal").modal("show");
+    }
+
+    //ny funksjon
+    function DeleteSegment() {
+        $("#loaderDiv").show();
+
+        var DataId = $("#hiddenSegmentId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Dataset/Delete",
+            data: { DatasetId: DataId },
+            success: function (result) {
+                $("#loaderDiv").hide();
+                $("#row_" + DataId).remove();
+                $("#deleteModal").modal('hide');
+            },
+            error: function (xhr, status, error) {
+                alert("En feil oppsto ved sletting - " + error);
+                $("#loaderDiv").hide();
+                $("#deleteModal").modal('hide');
+            }
+        })
+    }
+
+    function AddEditDataset (DatasetId) {
+        $("#AddAndEditModal").modal('show');
+        if (DatasetId == 0) {
+            $("#modalDatasetTitle").html("Legg til nytt datasett");
+        } else {
+            $("#modalDatasetTitle").html("Rediger datasett");
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Dataset/AddEditDataset",
+            data: { DatasetId: DatasetId },
+            success: function (response) {
+                $("#showModalBodyDiv1").html(response);
+               
+                
+            }
+        })
+    }
+
+</script>

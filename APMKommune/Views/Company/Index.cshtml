@@ -1,0 +1,217 @@
+﻿@model IEnumerable<APMKommune.Models.Company>
+
+
+@{
+    ViewBag.Title = "Kommuner";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+@*<script src="~/Scripts/bootstrap.min.js"></script>*@
+<link href="~/Content/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+
+<a href="#" class="btn btn-primary" id="btnNewCompany" onclick="AddEditSegment(0)" style="margin-top:30px;margin-bottom:30px">Ny Kommune</a>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+           Kommune
+        </th>
+        <th>
+            Kommunenummer
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    <tbody>
+        @if (ViewBag.Companylist != null)
+        {
+            foreach (var item in ViewBag.Companylist)
+            {
+                <tr id="row_@item.CompanyId">
+                    <td>
+                        @item.Name 
+                    </td>
+                    <td>
+                        @item.CompanyNr 
+                    </td>
+                    <td>
+                        <a hr="#" class="btn  " onclick="ConfirmDelete(@item.CompanyId)"><i class="fa fa-trash-o" aria-hidden="true" style="color:red"></i> </a>
+                        <a hr="#" class ="btn modalEditCompany" onclick="AddEditSegment(@item.CompanyId)"><i class="glyphicon glyphicon-pencil"></i> </a>
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+</table>
+
+
+<input type="hidden" id="hiddenCompanyId" />
+<!--Deletemodal-->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Er du sikker på at du vil slette denne kommunen?</h4>
+                <div style="text-align:center;display:none " id="loaderDiv">
+                    <i class="fa fa-spinner" aria-hidden="true"></i>
+                </div>
+            </div><!--Body-->
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Avbryt</a>
+                <a href="#" class="btn btn-success" onclick="DeleteCompany()"> Slett</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Slutt på deletemodal-->
+
+
+<!--ShowSegmentModal-->
+<div id="ShowModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title">Er det denne du leter etter</h4>
+            </div>
+
+            <div class="modal-body" id="showModalBodyDiv">
+                @Html.Partial("_PartialDitales")
+
+
+            </div><!--Body-->
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Lukk</a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Slutt på SHowModal-->
+
+<div id="AddAndEdit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 class="modal-title" id="modalNewCompany"></h4>
+            </div>
+
+            <div class="modal-body" id="showModalBodyDiv1">
+
+                @* @Html.Partial("_AddEditPartial");*@
+
+            </div><!--Body-->
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {})
+
+    var ConfirmDelete = function (CompanyId) {
+        $("#hiddenCompanyId").val(CompanyId);
+        $("#deleteModal").modal("show");
+    }
+
+    var DeleteCompany = function () {
+        $("#loaderDiv").show();
+
+        var ComId = $("#hiddenCompanyId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/Delete",
+            data: { CompanyId: ComId },
+            success: function (result) {
+                $("#loaderDiv").hide();
+                $("#row_" + ComId).remove();
+                $("#deleteModal").modal('hide');
+            },
+            error: function (xhr, status, error) {
+                alert("En feil oppsto ved sletting - " + error);
+                $("#loaderDiv").hide();
+                $("#deleteModal").modal('hide');
+            }
+        })
+    }
+
+    //Ny funksjon
+    var ShowSegment=function(CompanyId){
+
+        /* var url = "/Segments/ShowSegment?segmentId=" + segmentId;
+        $("#showModalBodyDiv").load(url,function(){
+            $("#ShowModal").modal('show');
+        })*/
+        ///Dette er to like måter å gjøre det på
+        $.ajax({
+            type: "POST",
+            url: "/Company/ShowSegment",
+            data: { CompanyId: CompanyId },
+            success: function (response) {
+
+                $("#showModalBodyDiv").html(response);
+                $("#ShowModal").modal('show');
+
+
+            }
+        })
+
+    }
+
+    //Ny funksjon
+    var AddEditSegment=function(CompanyId){
+        $("#AddAndEdit").modal('show');
+
+            /*var url = "/Segments/AddEditSegment?SegmentID=" + SegmentId;
+        $("#showModalBodyDiv1").load(url,function(){
+            $("#AddAndEdit").modal('show');
+        })*/
+        ///Dette er to like måter å gjøre det på
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/AddEditSegment",
+            data: { CompanyId: CompanyId },
+            success: function (response) {
+
+                $("#showModalBodyDiv1").html(response);
+                $("#AddAndEdit").modal('Hide');
+
+            }
+        })
+
+    }
+
+    $("#btnNewCompany").click(function () {
+        $(this).data("clicked", true);
+        $("#modalNewCompany").html("Legg til ny kommune");
+    });
+
+    $(".modalEditCompany").click(function () {
+        $(this).data("clicked", true);
+        $("#modalNewCompany").html("Rediger kommune");
+    });
+
+</script>

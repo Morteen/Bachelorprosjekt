@@ -1,0 +1,145 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#tabell{
+    width: 95%;
+    height: 100%;
+    background-color:#DDE5E8;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    margin-top:40px;
+    transform: translate(-50%, -50%)
+}
+#regNy{
+    text-align:center;
+}
+
+.scoreIcon {
+    position: relative;
+    display: inline-block;
+}
+
+.scoreIcon .scoreIconText {
+    visibility: hidden;
+    min-width: 150px;
+    background-color: #DDE5E8;
+    color: #000000;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 6px;
+    padding: 5px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.scoreIcon:hover .scoreIconText {
+    visibility: visible;
+}
+
+.newAppForm{
+    border-radius: 8px;
+    margin-top:30px;
+    margin-bottom:30px;
+    margin-right: 30px;
+    padding:15px;
+    background-color:#DDE5E8;
+    box-shadow: 0px 2px 7px #888888;
+    border: 1px solid #888888;
+}
+
+#costAndScoreTable{
+    width: 100%;
+}
+
+#filterTable td {
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.dl-AppDetails dd{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.dl-AppDetails dt {
+    text-align: left;
+}
+
+#leftColumn{
+    width: 50%;
+    float: left;
+    margin-left: 30px;
+}
+
+#rightColumn{
+    width: auto;
+    float: left;
+    margin-left: 30px;
+}
+
+#AppDetails{
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #DDE5E8;
+    box-shadow: 0px 2px 7px #888888;
+    border: 1px solid #888888;
+    float: left;
+}
+
+.dashboardCard {
+    background-color: #DDE5E8;
+    border-radius: 10px;
+    border: 1px solid black;
+    align-content: center;
+    font-weight:600;
+    min-height:230px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    box-shadow: 4px 4px 5px #888888;
+}
+
+.dashboardCardLink:hover,
+.dashboardCardLink:focus,
+.dashboardCardLink:link,
+.dashboardCardLink:visited {
+    text-decoration: none;
+    color: black;
+}
+
+#applicationSettings {
+    float: right;
+}
+
+.label-font1 {
+    font-size: 13px;
+}

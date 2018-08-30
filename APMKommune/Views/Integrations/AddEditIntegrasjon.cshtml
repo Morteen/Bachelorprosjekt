@@ -1,0 +1,95 @@
+﻿@model APMKommune.Models.Integration
+
+
+<!DOCTYPE html>
+
+<div>
+
+    <form id="myForm">
+        @Html.HiddenFor(i => i.IntegrationId)
+        <p>
+            @Html.DisplayNameFor(model => model.Name)
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </p>
+        <p>
+            @Html.DisplayNameFor(model => model.Type)
+            @Html.EditorFor(model => model.Type,new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+        </p>
+        <p>
+            @Html.DisplayNameFor(model => model.Description)
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </p>
+
+        
+        
+        @Html.DisplayNameFor(model => model.Application.Name)
+        @if (ViewBag.Appliste != null)
+        {
+            @Html.DropDownList("ApplicationId", new SelectList(ViewBag.Appliste, "ApplicationId", "Name"), htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+        }
+        else
+        {
+            <p>Fant ingen registrerte applikasjoner</p>
+        }
+
+        @Html.DisplayNameFor(model => model.TargetApplication)
+        @if (ViewBag.TargetAppliste != null)
+        {
+            @Html.DropDownList("TargetApplicationId", new SelectList(ViewBag.TargetAppliste, "ApplicationId", "Name"), htmlAttributes: new { style = "margin-top:5px", @class = "form-control" })
+        }
+        else
+        {
+            <p>Fant ingen registrerte applikasjoner i TargetApplisten</p>
+        }
+
+        <br />
+        <a href="#" id="btnSubmit" class="btn btn-success ">
+            @if (Model != null && Model.IntegrationId > 0)
+            { <span> Oppdater</span>}
+            else
+            {<span> Lagre</span> }
+
+        </a>
+
+    </form>
+
+
+    <div style="text-align:center;display:none" id="loaderDiv">
+        <!--SlowLoader gif-->
+        <i class="fa fa-spinner" aria-hidden="true"></i>
+    </div>
+
+
+     </div>
+<script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+            $("#loaderDiv").show();
+
+            var data = $("#myForm").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Integrations/Create",
+                data: data,
+                success: function () {
+                    $("#loaderDiv").hide();
+                    $("#AddAndEdit").modal("hide");
+                    window.location.href = "/Integrations/Index";
+
+                }
+
+            })
+
+        })
+    })
+
+
+
+
+</script>
+
+
